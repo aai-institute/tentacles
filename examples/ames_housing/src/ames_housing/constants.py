@@ -10,3 +10,6 @@ SELECTED_FEATURES = {
 TARGET = "sale_price"
 
 RANDOM_STATE = 42
+
+MLFLOW_TRACKING_URL = "http://localhost:5000"
+MLFLOW_EXPERIMENT = "Ames housing price prediction"
