@@ -14,7 +14,7 @@ dependencies = [
   "pandas==2.2.2",
   "case-converter==1.1.0",
   "scikit-learn==1.4.2",
-  "tentacles @ git+https://github.com/janwillemkl/tentacles@b0f15c7932f8f31a3b0ce79e4e41edf7cb66cd45"
+  "tentacles @ git+https://github.com/janwillemkl/tentacles@cb1f80011e5a3d47aa7d95c2061ead06038fc6a2"
 ]
 
 [project.optional-dependencies]
