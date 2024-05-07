@@ -6,7 +6,9 @@ from dagster import asset
 from ames_housing.constants import SELECTED_FEATURES, TARGET
 
 
-@asset(group_name="preprocessing", compute_kind="pandas")
+@asset(
+    group_name="preprocessing", compute_kind="pandas", io_manager_key="csv_io_manager"
+)
 def ames_housing_features(ames_housing_data: pd.DataFrame):
     """Ames housing features.
 

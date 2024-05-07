@@ -11,8 +11,8 @@ from ames_housing.constants import (
 
 @multi_asset(
     outs={
-        "train_data": AssetOut(),
-        "test_data": AssetOut(),
+        "train_data": AssetOut(io_manager_key="csv_io_manager"),
+        "test_data": AssetOut(io_manager_key="csv_io_manager"),
     },
     group_name="preprocessing",
     compute_kind="pandas",

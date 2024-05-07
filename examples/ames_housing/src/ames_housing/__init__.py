@@ -1,6 +1,8 @@
 """Ames housing price prediction model training pipeline."""
 
 from dagster import Definitions
+from tentacles.io_managers.fs_io_manager import FilesystemIOManager
+from tentacles.io_managers.serializers.csv_serializer import CSVSerializer
 from tentacles.resources.mlflow_session import MlflowSession
 
 from ames_housing.assets.ames_housing_data import ames_housing_data
@@ -34,8 +36,12 @@ definitions = Definitions(
             separator=AMES_HOUSING_DATA_SET_SEPARATOR,
         ),
         "mlflow_session": MlflowSession(
-            tracking_url=MLFLOW_TRACKING_URL,
-            experiment=MLFLOW_EXPERIMENT
-        )
+            tracking_url=MLFLOW_TRACKING_URL, experiment=MLFLOW_EXPERIMENT
+        ),
+        "csv_io_manager": FilesystemIOManager(
+            base_dir="data",
+            extension=".csv",
+            serializer=CSVSerializer(),
+        ),
     },
 )

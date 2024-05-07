@@ -7,7 +7,7 @@ from dagster import asset
 from ames_housing.resources.csv_data_set_loader import CSVDataSetLoader
 
 
-@asset(group_name="ingestion", compute_kind="pandas")
+@asset(group_name="ingestion", compute_kind="pandas", io_manager_key="csv_io_manager")
 def ames_housing_data(
     data_set_downloader: CSVDataSetLoader,
 ) -> pd.DataFrame:
