@@ -127,7 +127,9 @@ jinja2==3.1.4
     #   flask
     #   mlflow
 joblib==1.4.2
-    # via scikit-learn
+    # via
+    #   scikit-learn
+    #   tentacles
 kiwisolver==1.4.5
     # via matplotlib
 lsprotocol==2023.0.1
@@ -276,7 +278,7 @@ structlog==24.1.0
     # via dagster
 tabulate==0.9.0
     # via dagster
-tentacles @ git+https://github.com/janwillemkl/tentacles@cb1f80011e5a3d47aa7d95c2061ead06038fc6a2
+tentacles @ git+https://github.com/janwillemkl/tentacles@45f93fb87d3c70d69040b62cb768e98294869fd7
     # via ames-housing (pyproject.toml)
 threadpoolctl==3.5.0
     # via scikit-learn
