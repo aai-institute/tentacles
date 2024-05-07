@@ -53,7 +53,11 @@ def _fit_and_score_pipeline(
     return pipeline
 
 
-@asset(group_name="training", compute_kind="scikitlearn")
+@asset(
+    group_name="training",
+    compute_kind="scikitlearn",
+    io_manager_key="pickle_io_manager",
+)
 def linear_regression_model(
     context: AssetExecutionContext,
     mlflow_session: MlflowSession,
@@ -70,7 +74,11 @@ def linear_regression_model(
     )
 
 
-@asset(group_name="training", compute_kind="scikitlearn")
+@asset(
+    group_name="training",
+    compute_kind="scikitlearn",
+    io_manager_key="pickle_io_manager",
+)
 def random_forest_model(
     context: AssetExecutionContext,
     mlflow_session: MlflowSession,
@@ -87,7 +95,11 @@ def random_forest_model(
     )
 
 
-@asset(group_name="training", compute_kind="scikitlearn")
+@asset(
+    group_name="training",
+    compute_kind="scikitlearn",
+    io_manager_key="pickle_io_manager",
+)
 def gradient_boosting_model(
     context: AssetExecutionContext,
     mlflow_session: MlflowSession,

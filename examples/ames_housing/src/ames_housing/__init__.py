@@ -3,6 +3,7 @@
 from dagster import Definitions
 from tentacles.io_managers.fs_io_manager import FilesystemIOManager
 from tentacles.io_managers.serializers.csv_serializer import CSVSerializer
+from tentacles.io_managers.serializers.pickle_serializer import PickleSerializer
 from tentacles.resources.mlflow_session import MlflowSession
 
 from ames_housing.assets.ames_housing_data import ames_housing_data
@@ -42,6 +43,11 @@ definitions = Definitions(
             base_dir="data",
             extension=".csv",
             serializer=CSVSerializer(),
+        ),
+        "pickle_io_manager": FilesystemIOManager(
+            base_dir="model",
+            extension=".pkl",
+            serializer=PickleSerializer(),
         ),
     },
 )
