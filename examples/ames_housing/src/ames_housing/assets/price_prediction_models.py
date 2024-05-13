@@ -6,7 +6,7 @@ from dagster import AssetExecutionContext, asset
 from sklearn.pipeline import Pipeline
 from tentacles.resources.mlflow_session import MlflowSession
 
-from ames_housing.constants import TARGET
+from ames_housing.constants import LAKEFS_MODEL_PATH, TARGET
 from ames_housing.model_factory import ModelFactory
 
 
@@ -56,7 +56,8 @@ def _fit_and_score_pipeline(
 @asset(
     group_name="training",
     compute_kind="scikitlearn",
-    io_manager_key="pickle_io_manager",
+    io_manager_key="model_io_manager",
+    metadata={"path": LAKEFS_MODEL_PATH},
 )
 def linear_regression_model(
     context: AssetExecutionContext,
@@ -77,7 +78,8 @@ def linear_regression_model(
 @asset(
     group_name="training",
     compute_kind="scikitlearn",
-    io_manager_key="pickle_io_manager",
+    io_manager_key="model_io_manager",
+    metadata={"path": LAKEFS_MODEL_PATH},
 )
 def random_forest_model(
     context: AssetExecutionContext,
@@ -98,7 +100,8 @@ def random_forest_model(
 @asset(
     group_name="training",
     compute_kind="scikitlearn",
-    io_manager_key="pickle_io_manager",
+    io_manager_key="model_io_manager",
+    metadata={"path": LAKEFS_MODEL_PATH},
 )
 def gradient_boosting_model(
     context: AssetExecutionContext,

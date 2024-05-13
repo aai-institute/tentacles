@@ -5,14 +5,19 @@ from dagster import AssetOut, multi_asset
 from sklearn.model_selection import train_test_split
 
 from ames_housing.constants import (
+    LAKEFS_DATA_PATH,
     RANDOM_STATE,
 )
 
 
 @multi_asset(
     outs={
-        "train_data": AssetOut(io_manager_key="csv_io_manager"),
-        "test_data": AssetOut(io_manager_key="csv_io_manager"),
+        "train_data": AssetOut(
+            io_manager_key="dataset_io_manager", metadata={"path": LAKEFS_DATA_PATH}
+        ),
+        "test_data": AssetOut(
+            io_manager_key="dataset_io_manager", metadata={"path": LAKEFS_DATA_PATH}
+        ),
     },
     group_name="preprocessing",
     compute_kind="pandas",

@@ -13,3 +13,9 @@ RANDOM_STATE = 42
 
 MLFLOW_TRACKING_URL = "http://localhost:5000"
 MLFLOW_EXPERIMENT = "Ames housing price prediction"
+
+LAKEFS_REPOSITORY = "ames-housing"
+LAKEFS_BRANCH = "main"
+
+LAKEFS_DATA_PATH = ["data"]
+LAKEFS_MODEL_PATH = ["models"]

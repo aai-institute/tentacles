@@ -3,11 +3,14 @@
 import pandas as pd
 from dagster import asset
 
-from ames_housing.constants import SELECTED_FEATURES, TARGET
+from ames_housing.constants import LAKEFS_DATA_PATH, SELECTED_FEATURES, TARGET
 
 
 @asset(
-    group_name="preprocessing", compute_kind="pandas", io_manager_key="csv_io_manager"
+    group_name="preprocessing",
+    compute_kind="pandas",
+    io_manager_key="dataset_io_manager",
+    metadata={"path": LAKEFS_DATA_PATH},
 )
 def ames_housing_features(ames_housing_data: pd.DataFrame):
     """Ames housing features.

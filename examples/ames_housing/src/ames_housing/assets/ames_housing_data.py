@@ -5,9 +5,15 @@ from caseconverter import snakecase
 from dagster import asset
 
 from ames_housing.resources.csv_data_set_loader import CSVDataSetLoader
+from ames_housing.constants import LAKEFS_DATA_PATH
 
 
-@asset(group_name="ingestion", compute_kind="pandas", io_manager_key="csv_io_manager")
+@asset(
+    group_name="ingestion",
+    compute_kind="pandas",
+    io_manager_key="dataset_io_manager",
+    metadata={"path": LAKEFS_DATA_PATH},
+)
 def ames_housing_data(
     data_set_downloader: CSVDataSetLoader,
 ) -> pd.DataFrame:
