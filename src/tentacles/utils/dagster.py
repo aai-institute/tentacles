@@ -1,6 +1,8 @@
 """Dagster utilities."""
 
-from dagster import AssetExecutionContext
+from typing import Union
+
+from dagster import AssetExecutionContext, InputContext, OutputContext
 
 SHORT_RUN_ID_LENGTH = 8
 """Length of the short version of the run id."""
@@ -40,3 +42,22 @@ def get_asset_key(context: AssetExecutionContext) -> str:
         Asset key.
     """
     return context.asset_key.to_user_string()
+
+
+def get_metadata(context: Union[OutputContext, InputContext]) -> dict:
+    """Get metadata from the dagster context.
+    
+    Parameters
+    ----------
+    context : Union[OutputContext, InputContext]
+        Dagster context.
+
+    Returns
+    -------
+    dict
+        Asset metadata
+    """
+    if isinstance(context, OutputContext):
+        return context.metadata
+    else:  # type is InputContext
+        return context.upstream_output.metadata
