@@ -24,13 +24,19 @@ class MlflowSession(ConfigurableResource):
         Experiment name.
     use_asset_run_key : bool
         Whether the Dagster asset key should be included in the MLflow run name.
+    use_dagster_run_id : bool
+        Whether the Dagster run ID should be included in the MLflow run name.
+    run_name_prefix : Optional[str]
+        Optional prefix for the MLflow run name.
     """
 
     tracking_url: str
     username: Optional[str]
     password: Optional[str]
     experiment: str
-    use_asset_run_key: bool = False
+    use_asset_run_key: bool = True
+    use_dagster_run_id: bool = True
+    run_name_prefix: Optional[str]
 
     def setup_for_execution(self, context: InitResourceContext) -> None:
         """Setup the resource.
@@ -56,8 +62,8 @@ class MlflowSession(ConfigurableResource):
 
         The run name is constructed as follows:
         - The run name prefix (when provided)
-        - The asset key name
-        - The run identifier
+        - The asset key name (if ``self.use_asset_run_key == True``)
+        - The run identifier (if ``self.use_dagster_run_id == True``)
 
         Parameters
         ----------
@@ -71,18 +77,30 @@ class MlflowSession(ConfigurableResource):
         str
             Run name
         """
-        dagster_run_id = get_run_id(context, short=True)
+
+        if run_name_prefix is None:
+            run_name_prefix = self.run_name_prefix
+
+        parts: list[str] = []
 
         if self.use_asset_run_key:
             asset_key = get_asset_key(context)
-            run_name = f"{asset_key}-{dagster_run_id}"
-        else:
-            run_name = dagster_run_id
+            if isinstance(asset_key, list):
+                raise ValueError("Can not derive MLflow run name for multi-assets.")
+
+            parts.append(asset_key)
+
+        if self.use_dagster_run_id:
+            run_id = get_run_id(context, short=True)
+            parts.append(run_id)
 
         if run_name_prefix is not None:
-            run_name = f"{run_name_prefix}-{run_name}"
+            parts.append(run_name_prefix)
 
-        return run_name
+        if len(parts) == 0:
+            raise ValueError("Could not derive MLflow run name.")
+
+        return "-".join(parts)
 
     def get_run(
         self,
