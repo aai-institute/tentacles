@@ -138,7 +138,12 @@ class MlflowSession(ConfigurableResource):
                 return mlflow.start_run(run_id=run_id, run_name=run_name)
             else:
                 tags["dagster.run_id"] = get_run_id(context)
-                tags["dagster.asset_name"] = get_asset_key(context)
+
+                # MLflow tags must be strings, coerce multi-asset keys to a comma-separated list
+                asset_key = get_asset_key(context)
+                if isinstance(asset_key, list):
+                    asset_key = ",".join(asset_key)
+                tags["dagster.asset_name"] = asset_key
 
                 return mlflow.start_run(run_name=run_name, tags=tags)
 
