@@ -22,12 +22,15 @@ class MlflowSession(ConfigurableResource):
         Optional password for authenticating against the MLflow tracking server.
     experiment : str
         Experiment name.
+    use_asset_run_key : bool
+        Whether the Dagster asset key should be included in the MLflow run name.
     """
 
     tracking_url: str
     username: Optional[str]
     password: Optional[str]
     experiment: str
+    use_asset_run_key: bool = False
 
     def setup_for_execution(self, context: InitResourceContext) -> None:
         """Setup the resource.
@@ -68,10 +71,14 @@ class MlflowSession(ConfigurableResource):
         str
             Run name
         """
-        asset_key = get_asset_key(context)
         dagster_run_id = get_run_id(context, short=True)
 
-        run_name = f"{asset_key}-{dagster_run_id}"
+        if self.use_asset_run_key:
+            asset_key = get_asset_key(context)
+            run_name = f"{asset_key}-{dagster_run_id}"
+        else:
+            run_name = dagster_run_id
+
         if run_name_prefix is not None:
             run_name = f"{run_name_prefix}-{run_name}"
 
