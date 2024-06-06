@@ -46,7 +46,7 @@ def get_asset_key(context: AssetExecutionContext) -> str | list[str]:
         return context.asset_key.to_user_string()
     return [
         context.asset_key_for_output(o).to_user_string()
-        for o in context.selected_output_names
+        for o in outputs
     ]
 
 
